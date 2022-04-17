@@ -1,3 +1,9 @@
+using Core.Entities;
+using Core.Queries;
+using DAL;
+using DAL.Queries;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,8 +13,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext(x=>x.UseSqlServer(builder.Configuration.GetConnectionString("")));
+builder.Services.AddDbContext<RecipeContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
 
+builder.Services.AddScoped<IQueryHandler<GetRecipeQuery, IList<Recipe>>, GetRecipeQueryHandler>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1,6 +1,7 @@
 ﻿using Core.Entities;
 using Core.Queries;
 using DAL.Queries;
+using LaCheff.Models.RecipeModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LaCheff.Controllers
@@ -20,6 +21,7 @@ namespace LaCheff.Controllers
         public async Task<IActionResult> GetRecipe()
         {
             IList<Recipe> recipes = await _getRecipeQuery.HandleAsync(new GetRecipeQuery());
+            var recipeResponse = recipes.Select(x => new RecipeResponseModel(x));
 
             return Ok(recipes);
         }

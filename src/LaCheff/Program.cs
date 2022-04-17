@@ -1,6 +1,8 @@
+using Core.Commands;
 using Core.Entities;
 using Core.Queries;
 using DAL;
+using DAL.Commands;
 using DAL.Queries;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +18,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<RecipeContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
 
 builder.Services.AddScoped<IQueryHandler<GetRecipeQuery, IList<Recipe>>, GetRecipeQueryHandler>();
+
+builder.Services.AddScoped<ICommandHandler<CreateRecipeCommand>, CreateRecipeCommandHandler>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

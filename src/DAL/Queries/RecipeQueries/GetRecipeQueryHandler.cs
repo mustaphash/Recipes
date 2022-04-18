@@ -13,7 +13,7 @@ namespace DAL.Queries
         }
         public async Task<IList<Recipe>> HandleAsync(GetRecipeQuery query, CancellationToken cancellationToken = default)
         {
-            List<Recipe> recipes = await _recipeContext.Recipes.ToListAsync(cancellationToken);
+            List<Recipe> recipes = await _recipeContext.Recipes.Include(p => p.Products).ToListAsync(cancellationToken);
 
             return recipes;
         }

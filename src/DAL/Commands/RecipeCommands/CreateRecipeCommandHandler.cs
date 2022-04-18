@@ -12,7 +12,7 @@ namespace DAL.Commands
 
         public async Task HandleAsync(CreateRecipeCommand command, CancellationToken cancellationToken = default)
         {
-             await _recipeContext.AddAsync(command.Recipe);
+             _recipeContext.Add(command.Recipe);
             await _recipeContext.SaveChangesAsync();
         }
     }

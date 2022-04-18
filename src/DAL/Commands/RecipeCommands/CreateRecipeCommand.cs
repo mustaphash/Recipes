@@ -9,6 +9,6 @@ namespace DAL.Commands
         {
             Recipe = recipe;
         }
-        public Recipe Recipe { get; set; }
+        public Recipe Recipe { get; }
     }
 }

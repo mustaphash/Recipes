@@ -3,7 +3,9 @@ using Core.Entities;
 using Core.Queries;
 using DAL;
 using DAL.Commands;
+using DAL.Commands.ProductCommands;
 using DAL.Queries;
+using DAL.Queries.ProductQueries;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,8 +20,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<RecipeContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
 
 builder.Services.AddScoped<IQueryHandler<GetRecipeQuery, IList<Recipe>>, GetRecipeQueryHandler>();
+builder.Services.AddScoped<IQueryHandler<GetProductsQuery, IList<Product>>, GetProductsQueryHandler>();
 
 builder.Services.AddScoped<ICommandHandler<CreateRecipeCommand>, CreateRecipeCommandHandler>();
+builder.Services.AddScoped<ICommandHandler<CreateProductCommand>, CreateProductCommandHandler>();
 
 var app = builder.Build();
 

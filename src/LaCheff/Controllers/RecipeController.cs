@@ -2,7 +2,9 @@
 using Core.Entities;
 using Core.Queries;
 using DAL.Commands;
+using DAL.Commands.ProductCommands;
 using DAL.Queries;
+using LaCheff.Models.ProductModel;
 using LaCheff.Models.RecipeModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,12 +16,15 @@ namespace LaCheff.Controllers
     {
         private readonly IQueryHandler<GetRecipeQuery, IList<Recipe>> _getRecipeQuery;
         private readonly ICommandHandler<CreateRecipeCommand> _crateRecipeCommand;
+        private readonly ICommandHandler<CreateProductCommand> _createProductCommand;
         public RecipeController(
             IQueryHandler<GetRecipeQuery, IList<Recipe>> getRecipeQuery,
-            ICommandHandler<CreateRecipeCommand> crateRecipeCommand)
+            ICommandHandler<CreateRecipeCommand> crateRecipeCommand,
+            ICommandHandler<CreateProductCommand> createProductCommand)
         {
             _getRecipeQuery = getRecipeQuery;
             _crateRecipeCommand = crateRecipeCommand;
+            _createProductCommand = createProductCommand;
         }
 
         [HttpGet]
@@ -36,6 +41,15 @@ namespace LaCheff.Controllers
         {
             var recipe = model.ToRecipe();
             await _crateRecipeCommand.HandleAsync(new CreateRecipeCommand(recipe));
+
+            return NoContent();
+        }
+
+        [HttpPost("products")]
+        public async Task<IActionResult> InsertProduct(CreateProductModel model)
+        {
+            var product = model.ToProduct();
+            await _createProductCommand.HandleAsync(new CreateProductCommand(model.RecipeId, product));
 
             return NoContent();
         }
